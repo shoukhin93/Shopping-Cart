@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from online_shopping_cart import views
 
 urlpatterns = [
+    path('adminPanel/', views.adminPanel, name= "adminPanel" ),
     path('admin/', admin.site.urls),
 ]
