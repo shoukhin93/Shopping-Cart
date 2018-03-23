@@ -8,6 +8,11 @@ from django.urls import reverse
 
 # Create your views here.
 
+def index(request):
+    items = Items.objects.all()
+    return render(request, 'index.html', context={'items': items})
+
+
 def admin_panel(request):
     if request.method == 'POST':
         form = AddItems(request.POST, request.FILES)
