@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Admin panel</title>
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
@@ -27,6 +27,15 @@
 
 <div class="container">
     <h2></h2>
+     <div class="row">
+        {% if messages %}
+            <div class="jumbotron col-sm-offset-3 col-sm-6">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
     <div class="row">
         <form method="post" class="form-horizontal" enctype="multipart/form-data">
 
@@ -75,5 +84,7 @@
         </form>
     </div>
 </div>
+
+
 </body>
 </html>

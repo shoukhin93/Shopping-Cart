@@ -16,8 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from online_shopping_cart import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('adminPanel/', views.adminPanel, name="adminPanel"),
+    path('adminPanel/', views.admin_panel, name="adminPanel"),
+    path('test/', views.test, name="test"),
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
