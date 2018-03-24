@@ -30,3 +30,13 @@ def admin_panel(request):
 def test(request):
     items = Items.objects.all()
     return render(request, 'test.html', context={'items': items})
+
+
+def edit_item(request, id):
+    item = Items.objects.get(id=id)
+    return render(request, 'edit_item.html', context={'item': item})
+
+
+def delete_item(request, id):
+    Items.objects.get(id=id).delete()
+    return HttpResponseRedirect(reverse('index'))
