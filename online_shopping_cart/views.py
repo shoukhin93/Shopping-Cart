@@ -34,6 +34,13 @@ def test(request):
 
 def edit_item(request, id):
     item = Items.objects.get(id=id)
+
+    if request.method == "POST":
+        updated_info = AddItems(request.POST, request.FILES)
+
+        if updated_info.is_valid():
+            AddItems(request.POST, request.FILES, instance=item).save()
+            return HttpResponseRedirect(reverse('index'))
     return render(request, 'edit_item.html', context={'item': item})
 
 

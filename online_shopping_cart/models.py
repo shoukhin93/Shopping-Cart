@@ -7,7 +7,7 @@ class Items(models.Model):
     product_name = models.CharField(max_length=50)
     price = models.FloatField(default=0)
     quantity = models.IntegerField()
-    picture = models.ImageField(upload_to='images/')
+    picture = models.ImageField(null=True, blank=True, upload_to='images/')
     description = models.TextField()
 
     def __str__(self):
