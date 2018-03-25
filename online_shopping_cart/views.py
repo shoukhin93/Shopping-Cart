@@ -28,8 +28,19 @@ def admin_panel(request):
 
 
 def test(request):
-    items = Items.objects.all()
-    return render(request, 'test.html', context={'items': items})
+    if request.method == 'POST':
+        # print(request.POST)
+        # print("success")
+
+        id = request.POST['cart_item_id']
+
+        items = request.session.get('items', [])
+        items.append(id);
+        print(len(items));
+
+        request.session['items'] = items
+
+    return HttpResponseRedirect(reverse('index'))
 
 
 def edit_item(request, id):

@@ -36,6 +36,8 @@
     <link rel="apple-touch-icon-precomposed"
           href="{% static "themes/images/ico/apple-touch-icon-57-precomposed.png" %}">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <style type="text/css" id="enject"></style>
 </head>
 <body>
@@ -182,18 +184,26 @@
                                             {{ item.description }}
                                         </p>
 
-                                        <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
-                                                class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
-                                                class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">${{ item.price }}</a>
+                                        <form id="add_to_cart" method="post" action="/test/">
+                                            <h4 style="text-align:center">
+                                                <a class="btn" href="product_details.html"> <i
+                                                        class="icon-zoom-in"></i></a>
+                                                {% csrf_token %}
+                                                <input name="cart_item_id" id="cart_item_id" type="hidden"
+                                                       value="{{ item.id }}">
+                                                <button>Add to</button>
 
-                                        </h4>
+                                                <a class="btn btn-primary"
+                                                   href="#">${{ item.price }}</a>
+                                            </h4>
+                                        </form>
                                     </div>
-
                                     {% if request.user.is_superuser %}
-                                    <a href="/edit_item/{{ item.id }}/">Edit</a>
-                                    <a href="/delete_item/{{ item.id }}/">Delete</a>
+                                        <a href="/edit_item/{{ item.id }}/">Edit</a>
+                                        <a href="/delete_item/{{ item.id }}/">Delete</a>
                                     {% endif %}
                                 </div>
+
                             </li>
                         {% endfor %}
                     {% endif %}
@@ -233,17 +243,18 @@
                 <a href="#">MANUFACTURERS</a>
                 <a href="#">SUPPLIERS</a>
             </div>
-            <div id="socialMedia" class="span3 pull-right">
+            {% comment %} <div id="socialMedia" class="span3 pull-right">
                 <h5>SOCIAL MEDIA </h5>
                 <a href="#"><img width="60" height="60" src="themes/images/facebook.png" title="facebook"
                                  alt="facebook"/></a>
                 <a href="#"><img width="60" height="60" src="themes/images/twitter.png" title="twitter" alt="twitter"/></a>
                 <a href="#"><img width="60" height="60" src="themes/images/youtube.png" title="youtube" alt="youtube"/></a>
-            </div>
+            </div>{% endcomment %}
         </div>
         <p class="pull-right">&copy; Bootshop</p>
     </div><!-- Container End -->
 </div>
+{% comment %}
 <!-- Placed at the end of the document so the pages load faster ============================================= -->
 <script src="themes/js/jquery.js" type="text/javascript"></script>
 <script src="themes/js/bootstrap.min.js" type="text/javascript"></script>
@@ -341,6 +352,26 @@
         </div>
     </div>
 </div>
-<span id="themesBtn"></span>
+<span id="themesBtn"></span>{% endcomment %}
 </body>
+
+<!-- script to add items to users cart with ajax call-->
+{% comment %}<script type="text/javascript">
+    $(document).on('submit', '#add_to_cart', function (e) {
+        e.preventDefault();
+        var cart_item_id = document.getElementById('cart_item_id');
+        alert(cart_item_id.value)
+
+        $.ajax({
+            type: 'POST',
+            url: '/test/',
+            data: {
+                id: 4,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            }
+        });
+
+    });
+
+</script>{% endcomment %}
 </html>
