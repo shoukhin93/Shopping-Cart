@@ -50,7 +50,11 @@
                     <span class="btn btn-mini">$155.00</span>
                     <a href="product_summary.html"><span class="">$</span></a>
                     <a href="product_summary.html"><span class="btn btn-mini btn-primary"><i
-                            class="icon-shopping-cart icon-white"></i> [ 3 ] Itemes in your cart </span> </a>
+                            class="icon-shopping-cart icon-white"></i> [ {{ cart_item|length }} ] Items in your cart </span> </a>
+                    <a href="product_summary.html"><span class="btn btn-mini btn-primary">Checkout</span></a>
+                    <form id="clear_cart">
+                        <button class="btn btn-mini btn-warning">Clear all</button>
+                    </form>
                 </div>
             </div>
         </div>

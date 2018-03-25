@@ -4,13 +4,15 @@ from online_shopping_cart.models import Items
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import collections
 
 
 # Create your views here.
 
 def index(request):
     items = Items.objects.all()
-    return render(request, 'index.html', context={'items': items})
+    cart_item = request.session.get('items', 0)
+    return render(request, 'index.html', context={'items': items, 'cart_item': cart_item})
 
 
 def admin_panel(request):
@@ -29,9 +31,6 @@ def admin_panel(request):
 
 def test(request):
     if request.method == 'POST':
-        # print(request.POST)
-        # print("success")
-
         id = request.POST['cart_item_id']
 
         items = request.session.get('items', [])
@@ -58,3 +57,28 @@ def edit_item(request, id):
 def delete_item(request, id):
     Items.objects.get(id=id).delete()
     return HttpResponseRedirect(reverse('index'))
+
+
+def product_summary(request):
+    cart_item_ids = request.session.get('items', [])
+
+    # Gathering duplicate elements into one place
+    cleaned_cart_items = collections.Counter(cart_item_ids)
+    print(cleaned_cart_items)
+
+    cart_items = []
+    total_price = 0.00
+    print('cart item id', len(cart_item_ids))
+
+    for key,value in cleaned_cart_items.items():
+        temp_item = Items.objects.get(id=key)
+        quantity = value
+        temp_price = temp_item.price * quantity
+        total_price += temp_price
+
+        cart_items.append(
+            {'product_name': temp_item.product_name, 'price': temp_item.price, 'quantity': quantity,
+             'picture': temp_item.picture.url,
+             'total': temp_price})
+
+    return render(request, 'product_summary.html', context={'cart_items': cart_items, 'total_price': total_price})
