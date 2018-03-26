@@ -1,6 +1,7 @@
 from django import forms
 from online_shopping_cart.models import Items
 from django.core.exceptions import ValidationError
+import math
 
 
 class AddItems(forms.ModelForm):
@@ -12,7 +13,9 @@ class AddItems(forms.ModelForm):
 
         price = self.cleaned_data['price']
         try:
-            float(price)
+
+            price = float(price)
+            price = (math.ceil(price * 100) / 100)  # Rounding into 2 floating points
         except ValueError:
             raise ValidationError("Invalid Price")
 
