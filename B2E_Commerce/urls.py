@@ -24,8 +24,9 @@ urlpatterns = [
     path('adminPanel/', views.admin_panel, name="adminPanel"),
     path('edit_item/<int:id>/', views.edit_item, name='edit_item'),
     path('delete_item/<int:id>/', views.delete_item, name='delete_item'),
-    path('test/', views.test, name="test"),
+    path('test/', views.add_cart_item, name="test"),
     path('product_summary/', views.product_summary, name="product_summary"),
+    path('remove_cart_item/<int:id>/', views.remove_cart_item, name="remove_cart_item"),
     path('admin/', admin.site.urls),
 ]
 

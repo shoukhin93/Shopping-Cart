@@ -29,20 +29,8 @@ def admin_panel(request):
     return render(request, 'admin_panel.html')
 
 
-def test(request):
-    if request.method == 'POST':
-        id = request.POST['cart_item_id']
-
-        items = request.session.get('items', [])
-        items.append(id);
-        print(len(items));
-
-        request.session['items'] = items
-
-    return HttpResponseRedirect(reverse('index'))
-
-
 def edit_item(request, id):
+    """ To Edit Item from database(Admin privilege required)"""
     item = Items.objects.get(id=id)
 
     if request.method == "POST":
@@ -55,30 +43,56 @@ def edit_item(request, id):
 
 
 def delete_item(request, id):
+    """ To Delete Item from database(Admin privilege required)"""
     Items.objects.get(id=id).delete()
     return HttpResponseRedirect(reverse('index'))
 
 
 def product_summary(request):
+    """To view the cart items which are stored in session"""
+
     cart_item_ids = request.session.get('items', [])
 
-    # Gathering duplicate elements into one place
+    # Gathering duplicate elements into key, occurrences  pair
     cleaned_cart_items = collections.Counter(cart_item_ids)
-    print(cleaned_cart_items)
 
     cart_items = []
     total_price = 0.00
-    print('cart item id', len(cart_item_ids))
 
-    for key,value in cleaned_cart_items.items():
+    for key, value in cleaned_cart_items.items():
+        # Getting the saved item from database
         temp_item = Items.objects.get(id=key)
+
         quantity = value
-        temp_price = temp_item.price * quantity
-        total_price += temp_price
+        temp_price = temp_item.price * quantity  # total Price of a single item = quantity * price
+        total_price += temp_price  # Total shopping price
 
         cart_items.append(
-            {'product_name': temp_item.product_name, 'price': temp_item.price, 'quantity': quantity,
+            {'id': key, 'product_name': temp_item.product_name, 'price': temp_item.price, 'quantity': quantity,
              'picture': temp_item.picture.url,
              'total': temp_price})
 
     return render(request, 'product_summary.html', context={'cart_items': cart_items, 'total_price': total_price})
+
+
+def add_cart_item(request):
+    """To add cart item and save to session"""
+    if request.method == 'POST':
+        id = int(request.POST['cart_item_id'])
+        items = request.session.get('items', [])
+        items.append(id);
+
+        request.session['items'] = items
+
+    return HttpResponseRedirect(reverse('index'))
+
+
+def remove_cart_item(request, id):
+    """To remove cart item from session"""
+
+    updated_cart_items = request.session.get('items', [])
+    updated_cart_items = [x for x in updated_cart_items if x != id]
+
+    request.session['items'] = updated_cart_items
+
+    return HttpResponseRedirect(reverse('product_summary'))
