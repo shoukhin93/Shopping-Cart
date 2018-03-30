@@ -1,5 +1,5 @@
 from django import forms
-from online_shopping_cart.models import Items
+from online_shopping_cart.models import Items, Information
 from django.core.exceptions import ValidationError
 import math
 
@@ -30,3 +30,9 @@ class AddItems(forms.ModelForm):
             raise ValidationError("Invalid Quantity")
 
         return quantity
+
+
+class AddShipplingInfo(forms.ModelForm):
+    class Meta:
+        model = Information
+        fields = ('first_name', 'last_name', 'email', 'contact_no', 'full_address', 'zipcode',)

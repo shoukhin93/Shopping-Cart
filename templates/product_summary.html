@@ -48,7 +48,7 @@
                 <span class="icon-bar"></span>
             </a>
             <div class="navbar-inner">
-                <a class="brand" href="/"><img src="{% static "themes/images/logo.png"  %}" alt="Bootsshop"/></a>
+                <a class="brand" href="/"><img src="{% static "themes/images/logo.png" %}" alt="Bootsshop"/></a>
                 <form class="form-inline navbar-search" method="post" action="products.html">
                     <input id="srchFld" class="srchTxt" type="text"/>
                     <select class="srchTxt">
@@ -105,8 +105,9 @@
             <!-- Sidebar ================================================== -->
             <div id="sidebar" class="span3">
                 <div class="well well-small"><a id="myCart" href="product_summary.html"><img
-                        src="themes/images/ico-cart.png" alt="cart">3 Items in your cart <span
-                        class="badge badge-warning pull-right">$155.00</span></a></div>
+                        src="{% static "themes/images/ico-cart.png" %}" alt="cart">{{ cart_items|length }} Items in your
+                    cart <span
+                            class="badge badge-warning pull-right">{{ total_price }}</span></a></div>
                 <ul id="sideManu" class="nav nav-tabs nav-stacked">
                     <li class="subMenu open"><a> ELECTRONICS [230]</a>
                         <ul>
@@ -185,8 +186,7 @@
                 </ul>
                 <h3> SHOPPING CART [
                     <small>{{ cart_items|length }} Item(s)</small>
-                    ]<a href="products.html" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue
-                        Shopping </a></h3>
+                    ]<a href="/remove_all_cart_items/" class="btn btn-large pull-right btn-danger">Remove All Items</a></h3>
                 <hr class="soft"/>
 
                 <table class="table table-bordered">
@@ -219,11 +219,6 @@
                             <td>{{ cart_item.price }}</td>
                             <td>{{ cart_item.total }}</td>
                         </tr>
-
-                        {% comment %}<tr>
-                  <td colspan="4" style="text-align:right">Total Price:	</td>
-                  <td> $228.00</td>
-                </tr>{% endcomment %}
                     {% endfor %}
                     <tr>
                         <td colspan="4" style="text-align:right"><strong>TOTAL =</strong></td>
@@ -233,33 +228,43 @@
                     </tbody>
                 </table>
 
-
-                {% comment %}<table class="table table-bordered">
-			<tbody>
-				 <tr>
-                  <td> 
-				<form class="form-horizontal">
-				<div class="control-group">
-				<label class="control-label"><strong> VOUCHERS CODE: </strong> </label>
-				<div class="controls">
-				<input type="text" class="input-medium" placeholder="CODE">
-				<button type="submit" class="btn"> ADD </button>
-				</div>
-				</div>
-				</form>
-				</td>
-                </tr>
-				
-			</tbody>
-			</table>{% endcomment %}
-
                 <table class="table table-bordered">
                     <tr>
                         <th>ESTIMATE YOUR SHIPPING</th>
                     </tr>
                     <tr>
                         <td>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="/add_shipping_info/" method="post">
+                                <div class="control-group">
+                                    <label class="control-label" for="first_name">First Name </label>
+                                    <div class="controls">
+                                        <input type="text" name="first_name" id="first_name" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="last_name">Last Name </label>
+                                    <div class="controls">
+                                        <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="contact_no">Email </label>
+                                    <div class="controls">
+                                        <input type="email" name="email" id="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="contact_no">Contact No </label>
+                                    <div class="controls">
+                                        <input type="text" name="contact_no" id="contact_no" placeholder="Contact No">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="full_address">Full Address </label>
+                                    <div class="controls">
+                                        <input name="full_address" type="text" id="full_address" placeholder="Address">
+                                    </div>
+                                </div>
                                 <div class="control-group">
                                     <label class="control-label" for="inputCountry">Country </label>
                                     <div class="controls">
