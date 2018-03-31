@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import collections
 from django.contrib.auth.decorators import login_required
-import uuid
 
 
 def index(request):
@@ -164,7 +163,7 @@ def add_shopping_info(request):
     total_price = current_cart_info['total_price']
 
     # Saving Shipping info summary
-    shipping_info = ShippingInfo( username=username, total_price=total_price)
+    shipping_info = ShippingInfo(username=username, total_price=total_price)
     shipping_info.save()
 
     # Saving shipping info details
@@ -177,10 +176,13 @@ def add_shopping_info(request):
                                price=cart_item['quantity'] * product_id.price)
         voucher_item.save()
 
-    return render(request, 'product_summary.html')
+    return render(request, 'index.html')
 
 
-def unique_key(length):
-    """ To generate unique key for voucher id """
+def confirm_shipping_info(request):
+    """ To save confirmed shopping info """
 
-    return uuid.uuid4().hex[:length].upper()
+    temp_value = calculate_cart_items(request)
+
+    return render(request, 'confirm_shipping_order.html',
+                  context={'cart_items': temp_value["cart_items"], 'total_price': temp_value["total_price"]})

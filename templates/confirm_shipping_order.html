@@ -186,7 +186,7 @@
                 </ul>
                 <h3> SHOPPING CART [
                     <small>{{ cart_items|length }} Item(s)</small>
-                    ]<a href="/remove_all_cart_items/" class="btn btn-large pull-right btn-danger">Remove All Items</a>
+                    ]
                 </h3>
                 <hr class="soft"/>
 
@@ -206,98 +206,22 @@
                         <tr>
                             <td><img width="60" src="{{ cart_item.picture }}" alt=""/></td>
                             <td>{{ cart_item.product_name }}</td>
-                            <td>
-                                <div class="input-append"><input class="span1" style="max-width:34px"
-                                                                 placeholder="{{ cart_item.quantity }}"
-                                                                 id="appendedInputButtons" size="16" type="text">
-
-                                    <button class="btn" type="button"><i class="icon-minus"></i></button>
-                                    <button class="btn" type="button"><i class="icon-plus"></i></button>
-
-                                    <a class="btn btn-danger" href="/remove_cart_item/{{ cart_item.id }}/"><i
-                                            class="icon-remove icon-white"></i></a></div>
-                            </td>
+                            <td>{{ cart_item.quantity }}</td>
                             <td>{{ cart_item.price }}</td>
                             <td>{{ cart_item.total }}</td>
                         </tr>
                     {% endfor %}
                     <tr>
                         <td colspan="4" style="text-align:right"><strong>TOTAL =</strong></td>
-                        <td class="label label-important" style="display:block"><strong> {{ total_price }} </strong>
+                        <td class="label label-important" style="display:block"><strong> {{ total_price }}</strong>
                         </td>
                     </tr>
                     </tbody>
                 </table>
 
-                <table class="table table-bordered">
-                    <tr>
-                        <th>ESTIMATE YOUR SHIPPING</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form class="form-horizontal" action="/user_registration/" method="post">
-                                {% csrf_token %}
-                                <div class="control-group">
-                                    <label class="control-label" for="username">UserName </label>
-                                    <div class="controls">
-                                        <input type="text" name="username" id="username" placeholder="User Name">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="password">Password </label>
-                                    <div class="controls">
-                                        <input type="password" name="password" id="password" placeholder="Password">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="first_name">First Name </label>
-                                    <div class="controls">
-                                        <input type="text" name="first_name" id="first_name" placeholder="First Name">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="last_name">Last Name </label>
-                                    <div class="controls">
-                                        <input type="text" name="last_name" id="last_name" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="contact_no">Email </label>
-                                    <div class="controls">
-                                        <input type="email" name="email" id="email" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="contact_no">Contact No </label>
-                                    <div class="controls">
-                                        <input type="text" name="contact_no" id="contact_no" placeholder="Contact No">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="full_address">Full Address </label>
-                                    <div class="controls">
-                                        <input name="full_address" type="text" id="full_address" placeholder="Address">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="zipcode">Zipcode</label>
-                                    <div class="controls">
-                                        <input name="zipcode" type="text" id="zipcode" placeholder="Zipcode">
-                                    </div>
-                                </div>
 
-
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <button type="submit" class="btn">Register</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-                <a href="/" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
-                <a href="/confirm_shipping_info/" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+{#                <a href="/product_summary/" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>#}
+                <a href="/add_shipping_info/" class="btn btn-large pull-right btn-primary">Confirm </a>
 
             </div>
         </div>
@@ -347,7 +271,7 @@
 {% comment %}	<script src="themes/js/jquery.js" type="text/javascript"></script>
 	<script src="themes/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="themes/js/google-code-prettify/prettify.js"></script>
-	
+
 	<script src="themes/js/bootshop.js"></script>
     <script src="themes/js/jquery.lightbox-0.5.js"></script>{% endcomment %}
 
@@ -370,7 +294,7 @@
 		<a href="themes/css/#" name="cyborg"><img src="themes/switch/images/clr/cyborg.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="cerulean"><img src="themes/switch/images/clr/cerulean.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="journal"><img src="themes/switch/images/clr/journal.png" alt="bootstrap business templates"></a>
-		<a href="themes/css/#" name="readable"><img src="themes/switch/images/clr/readable.png" alt="bootstrap business templates"></a>	
+		<a href="themes/css/#" name="readable"><img src="themes/switch/images/clr/readable.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="simplex"><img src="themes/switch/images/clr/simplex.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="slate"><img src="themes/switch/images/clr/slate.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="spacelab"><img src="themes/switch/images/clr/spacelab.png" alt="bootstrap business templates"></a>
@@ -389,19 +313,19 @@
 		<a href="themes/css/#" name="pattern8"><img src="themes/switch/images/pattern/pattern8.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern9"><img src="themes/switch/images/pattern/pattern9.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern10"><img src="themes/switch/images/pattern/pattern10.png" alt="bootstrap business templates"></a>
-		
+
 		<a href="themes/css/#" name="pattern11"><img src="themes/switch/images/pattern/pattern11.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern12"><img src="themes/switch/images/pattern/pattern12.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern13"><img src="themes/switch/images/pattern/pattern13.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern14"><img src="themes/switch/images/pattern/pattern14.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern15"><img src="themes/switch/images/pattern/pattern15.png" alt="bootstrap business templates"></a>
-		
+
 		<a href="themes/css/#" name="pattern16"><img src="themes/switch/images/pattern/pattern16.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern17"><img src="themes/switch/images/pattern/pattern17.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern18"><img src="themes/switch/images/pattern/pattern18.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern19"><img src="themes/switch/images/pattern/pattern19.png" alt="bootstrap business templates"></a>
 		<a href="themes/css/#" name="pattern20"><img src="themes/switch/images/pattern/pattern20.png" alt="bootstrap business templates"></a>
-		 
+
 	</div>
 	</div>
 </div>{% endcomment %}
