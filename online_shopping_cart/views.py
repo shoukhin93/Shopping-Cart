@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from online_shopping_cart.forms import AddItems, UserInformationForm, UserRegistrationForm, ShippingInfoForm
-from online_shopping_cart.models import Items, UserInformation, ShippingInfo
+from online_shopping_cart.models import Items, UserInformation, ShippingInfo, Voucher
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -161,9 +161,22 @@ def add_shopping_info(request):
 
     unique_id = unique_key(10)
     username = request.user
-    total_price = calculate_cart_items(request)
-    shipping_info = ShippingInfo(v_id=unique_id, username=username, total_price=total_price['total_price'])
+    current_cart_info = calculate_cart_items(request)
+    total_price = current_cart_info['total_price']
+
+    # Saving Shipping info summary
+    shipping_info = ShippingInfo(v_id=unique_id, username=username, total_price=total_price)
     shipping_info.save()
+
+    # Saving shipping info details
+    cart_items = current_cart_info['cart_items']
+
+    for cart_item in cart_items:
+        print(cart_item['id'])
+        product_id = Items.objects.get(id=cart_item['id'])
+        voucher_item = Voucher(v_id=shipping_info, product_id=product_id, quantity=cart_item['quantity'],
+                               price=cart_item['quantity'] * product_id.price)
+        voucher_item.save()
 
     return render(request, 'product_summary.html')
 

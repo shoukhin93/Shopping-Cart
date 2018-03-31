@@ -39,7 +39,7 @@ class ShippingInfo(models.Model):
     time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.username.username
+        return self.v_id
 
 
 class Voucher(models.Model):
@@ -49,7 +49,6 @@ class Voucher(models.Model):
     product_id = models.ForeignKey(Items, on_delete=models.CASCADE, default=0)
     quantity = models.IntegerField()
     price = models.FloatField(default=0)
-    payment = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.v_id.username.username
+        return self.v_id.v_id

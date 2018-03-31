@@ -54,4 +54,4 @@ class ShippingInfoForm(forms.ModelForm):
 class VoucherForm(forms.ModelForm):
     class Meta:
         model = Voucher
-        fields = ('v_id', 'product_id', 'quantity', 'price', 'payment',)
+        fields = ('v_id', 'product_id', 'quantity', 'price',)
