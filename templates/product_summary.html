@@ -234,7 +234,20 @@
                     </tr>
                     <tr>
                         <td>
-                            <form class="form-horizontal" action="/add_shipping_info/" method="post">
+                            <form class="form-horizontal" action="/user_registration/" method="post">
+                                {% csrf_token %}
+                                <div class="control-group">
+                                    <label class="control-label" for="username">UserName </label>
+                                    <div class="controls">
+                                        <input type="text" name="username" id="username" placeholder="User Name">
+                                    </div>
+                                </div>
+                                 <div class="control-group">
+                                    <label class="control-label" for="password">Password </label>
+                                    <div class="controls">
+                                        <input type="password" name="password" id="password" placeholder="Password">
+                                    </div>
+                                </div>
                                 <div class="control-group">
                                     <label class="control-label" for="first_name">First Name </label>
                                     <div class="controls">
@@ -265,21 +278,17 @@
                                         <input name="full_address" type="text" id="full_address" placeholder="Address">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="inputCountry">Country </label>
+                                 <div class="control-group">
+                                    <label class="control-label" for="zipcode">Zipcode</label>
                                     <div class="controls">
-                                        <input type="text" id="inputCountry" placeholder="Country">
+                                        <input name="zipcode" type="text" id="zipcode" placeholder="Zipcode">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="inputPost">Post Code/ Zipcode </label>
-                                    <div class="controls">
-                                        <input type="text" id="inputPost" placeholder="Postcode">
-                                    </div>
-                                </div>
+
+
                                 <div class="control-group">
                                     <div class="controls">
-                                        <button type="submit" class="btn">ESTIMATE</button>
+                                        <button type="submit" class="btn">Register</button>
                                     </div>
                                 </div>
                             </form>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Items(models.Model):
@@ -14,11 +15,12 @@ class Items(models.Model):
         return self.product_name
 
 
-class Information(models.Model):
-    """ For saving Shipping information"""
+class UserInformation(models.Model):
+    """ For saving User registration information"""
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email=models.EmailField(default="")
+    email = models.EmailField(default="")
     contact_no = models.CharField(max_length=50)
     full_address = models.CharField(max_length=50)
     zipcode = models.IntegerField()

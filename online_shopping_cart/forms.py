@@ -1,7 +1,8 @@
 from django import forms
-from online_shopping_cart.models import Items, Information
+from online_shopping_cart.models import Items, UserInformation
 from django.core.exceptions import ValidationError
 import math
+from django.contrib.auth.models import User
 
 
 class AddItems(forms.ModelForm):
@@ -32,7 +33,13 @@ class AddItems(forms.ModelForm):
         return quantity
 
 
-class AddShipplingInfo(forms.ModelForm):
+class UserRegistrationForm(forms.ModelForm):
     class Meta:
-        model = Information
-        fields = ('first_name', 'last_name', 'email', 'contact_no', 'full_address', 'zipcode',)
+        model = User
+        fields = ('username', 'password', 'email')
+
+
+class UserInformationForm(forms.ModelForm):
+    class Meta:
+        model = UserInformation
+        fields = ( 'first_name', 'last_name', 'email', 'contact_no', 'full_address', 'zipcode',)

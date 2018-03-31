@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from online_shopping_cart.forms import AddItems, AddShipplingInfo
-from online_shopping_cart.models import Items, Information
+from online_shopping_cart.forms import AddItems, UserInformationForm, UserRegistrationForm
+from online_shopping_cart.models import Items, UserInformation
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -118,14 +118,43 @@ def remove_all_cart_items(request):
     return HttpResponseRedirect(reverse('product_summary'))
 
 
-def add_shipping_info(request):
-    if request.method == 'POST':
-        form = AddShipplingInfo(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('product_summary'))
+# def add_shipping_info(request):
+#     if request.method == 'POST':
+#         form = user_registration_form(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('product_summary'))
+#         else:
+#             messages.error(request, form.errors)
+#             return HttpResponseRedirect(reverse('product_summary'))
+#
+#     return render(request, 'product_summary.html')
+
+
+def user_registration(request):
+    if request.method == "POST":
+        registration_form = UserRegistrationForm(data=request.POST)
+        user_information = UserInformationForm(data=request.POST)
+
+        if registration_form.is_valid() and user_information.is_valid():
+
+            # Registering user
+            user = registration_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            # Saving Registered User data
+            temp = user_information.save(commit=False)
+            temp.user_id = user
+            temp.save()
+
         else:
-            messages.error(request, form.errors)
-            return HttpResponseRedirect(reverse('product_summary'))
+            messages.error(request, registration_form.errors)
+
+            # for message in messages:
+            print(registration_form.errors)
+            print(user_information.errors)
+
+        return HttpResponseRedirect(reverse('product_summary'))
 
     return render(request, 'product_summary.html')
