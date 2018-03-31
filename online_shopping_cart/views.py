@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from online_shopping_cart.forms import AddItems, UserInformationForm, UserRegistrationForm
-from online_shopping_cart.models import Items, UserInformation
+from online_shopping_cart.forms import AddItems, UserInformationForm, UserRegistrationForm, ShippingInfoForm
+from online_shopping_cart.models import Items, UserInformation, ShippingInfo
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import collections
 from django.contrib.auth.decorators import login_required
+import uuid
 
 
 def index(request):
@@ -23,10 +24,9 @@ def admin_panel(request):
         print(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('adminPanel')
         else:
             messages.error(request, form.errors)
-            return HttpResponseRedirect(reverse('adminPanel'))
+        return HttpResponseRedirect(reverse('adminPanel'))
 
     return render(request, 'admin_panel.html')
 
@@ -34,6 +34,7 @@ def admin_panel(request):
 @login_required
 def edit_item(request, id):
     """ To Edit Item from database(Admin privilege required)"""
+
     item = Items.objects.get(id=id)
 
     if request.method == "POST":
@@ -48,6 +49,7 @@ def edit_item(request, id):
 @login_required
 def delete_item(request, id):
     """ To Delete Item from database(Admin privilege required)"""
+
     Items.objects.get(id=id).delete()  # Deleting objects
 
     # clearing sessions
@@ -58,6 +60,7 @@ def delete_item(request, id):
 
 def calculate_cart_items(request):
     """ To Calculate cart items and their price"""
+
     cart_item_ids = request.session.get('items', [])
 
     # Gathering duplicate elements into key, occurrences  pair
@@ -93,6 +96,7 @@ def product_summary(request):
 
 def add_cart_item(request):
     """ To add cart item and save to session """
+
     if request.method == 'POST':
         id = int(request.POST['cart_item_id'])
         items = request.session.get('items', [])
@@ -104,6 +108,7 @@ def add_cart_item(request):
 
 def remove_cart_item(request, id):
     """To remove cart item from session"""
+
     updated_cart_items = request.session.get('items', [])
 
     # Removing duplicate items from session which are matched with passed id
@@ -114,24 +119,15 @@ def remove_cart_item(request, id):
 
 
 def remove_all_cart_items(request):
+    """To remove all carts from session"""
+
     request.session['items'] = []
     return HttpResponseRedirect(reverse('product_summary'))
 
 
-# def add_shipping_info(request):
-#     if request.method == 'POST':
-#         form = user_registration_form(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(reverse('product_summary'))
-#         else:
-#             messages.error(request, form.errors)
-#             return HttpResponseRedirect(reverse('product_summary'))
-#
-#     return render(request, 'product_summary.html')
-
-
 def user_registration(request):
+    """ To register a user and save his information """
+
     if request.method == "POST":
         registration_form = UserRegistrationForm(data=request.POST)
         user_information = UserInformationForm(data=request.POST)
@@ -158,3 +154,21 @@ def user_registration(request):
         return HttpResponseRedirect(reverse('product_summary'))
 
     return render(request, 'product_summary.html')
+
+
+def add_shopping_info(request):
+    """ To save shopping info """
+
+    unique_id = unique_key(10)
+    username = request.user
+    total_price = calculate_cart_items(request)
+    shipping_info = ShippingInfo(v_id=unique_id, username=username, total_price=total_price['total_price'])
+    shipping_info.save()
+
+    return render(request, 'product_summary.html')
+
+
+def unique_key(length):
+    """ To generate unique key for voucher id """
+
+    return uuid.uuid4().hex[:length].upper()

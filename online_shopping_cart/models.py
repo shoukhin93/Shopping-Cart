@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Items(models.Model):
@@ -17,13 +18,38 @@ class Items(models.Model):
 
 class UserInformation(models.Model):
     """ For saving User registration information"""
+
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(default="")
     contact_no = models.CharField(max_length=50)
     full_address = models.CharField(max_length=50)
     zipcode = models.IntegerField()
 
     def __str__(self):
         return self.first_name
+
+
+class ShippingInfo(models.Model):
+    """ For saving User Shipping information"""
+
+    v_id = models.CharField(max_length=50)
+    username = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
+    total_price = models.FloatField(default=0)
+    time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.username.username
+
+
+class Voucher(models.Model):
+    """ For saving User Voucher information"""
+
+    v_id = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE, default=0)
+    product_id = models.ForeignKey(Items, on_delete=models.CASCADE, default=0)
+    quantity = models.IntegerField()
+    price = models.FloatField(default=0)
+    payment = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.v_id.username.username
