@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from online_shopping_cart.forms import AddItems, UserInformationForm, UserRegistrationForm, ShippingInfoForm
+from online_shopping_cart.forms import AddItems, UserInformationForm, UserRegistrationForm
 from online_shopping_cart.models import Items, UserInformation, ShippingInfo, Voucher
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -159,13 +159,12 @@ def user_registration(request):
 def add_shopping_info(request):
     """ To save shopping info """
 
-    unique_id = unique_key(10)
     username = request.user
     current_cart_info = calculate_cart_items(request)
     total_price = current_cart_info['total_price']
 
     # Saving Shipping info summary
-    shipping_info = ShippingInfo(v_id=unique_id, username=username, total_price=total_price)
+    shipping_info = ShippingInfo( username=username, total_price=total_price)
     shipping_info.save()
 
     # Saving shipping info details

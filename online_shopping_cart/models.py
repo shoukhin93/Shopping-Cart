@@ -33,13 +33,13 @@ class UserInformation(models.Model):
 class ShippingInfo(models.Model):
     """ For saving User Shipping information"""
 
-    v_id = models.CharField(max_length=50)
     username = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     total_price = models.FloatField(default=0)
+    payment_status = models.CharField(default="Pending", max_length=10)
     time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.v_id
+        return self.username.username
 
 
 class Voucher(models.Model):
@@ -51,4 +51,4 @@ class Voucher(models.Model):
     price = models.FloatField(default=0)
 
     def __str__(self):
-        return self.v_id.v_id
+        return self.v_id.username.username

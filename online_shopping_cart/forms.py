@@ -44,14 +44,3 @@ class UserInformationForm(forms.ModelForm):
         model = UserInformation
         fields = ('first_name', 'last_name', 'contact_no', 'full_address', 'zipcode',)
 
-
-class ShippingInfoForm(forms.ModelForm):
-    class Meta:
-        model = ShippingInfo
-        fields = ('v_id', 'username', 'total_price', 'time',)
-
-
-class VoucherForm(forms.ModelForm):
-    class Meta:
-        model = Voucher
-        fields = ('v_id', 'product_id', 'quantity', 'price',)
