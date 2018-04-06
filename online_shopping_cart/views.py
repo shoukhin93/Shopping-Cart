@@ -192,3 +192,16 @@ def confirm_shipping_info(request):
 def shipping_history(request):
     shipping_information = ShippingInfo.objects.all()
     return render(request, 'shipping_history.html', context={'shipping_information': shipping_information})
+
+
+@login_required
+def approve_shipping_info(request, id):
+    """ To approve the pending status"""
+
+    info = ShippingInfo.objects.get(id=id)
+    info.payment_status = "approved"
+    info.save()
+
+    shipping_information = ShippingInfo.objects.all()
+    return render(request, 'shipping_history.html', context={'shipping_information': shipping_information})
+    #return HttpResponseRedirect(reverse('product_summary'))

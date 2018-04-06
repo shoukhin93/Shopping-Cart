@@ -32,6 +32,7 @@ urlpatterns = [
     path('add_shipping_info/', views.add_shopping_info, name="add_shopping_info"),
     path('confirm_shipping_info/', views.confirm_shipping_info, name="confirm_shipping_info"),
     path('shipping_history/', views.shipping_history, name="shipping_history"),
+    path('approve_payment_status/<int:id>/', views.approve_shipping_info, name="approve_payment_status"),
     path('admin/', admin.site.urls),
 ]
 

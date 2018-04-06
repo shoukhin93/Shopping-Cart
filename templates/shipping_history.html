@@ -209,7 +209,12 @@
                             <td>{{ shipping_info.total_price }}</td>
                             <td>{{ shipping_info.payment_status }}</td>
                             <td>{{ shipping_info.time }}</td>
-                            <td><a href="/add_shipping_info/" class="btn pull-right btn-primary">Approve</a>
+
+                            <td>
+                                {% if shipping_info.payment_status == 'Pending' %} }
+                                    <a href="/approve_payment_status/{{ shipping_info.id }}"
+                                       class="btn pull-right btn-primary">Approve</a>
+                                {% endif %}
                             </td>
 
                         </tr>
