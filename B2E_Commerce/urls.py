@@ -33,6 +33,7 @@ urlpatterns = [
     path('confirm_shipping_info/', views.confirm_shipping_info, name="confirm_shipping_info"),
     path('shipping_history/', views.shipping_history, name="shipping_history"),
     path('approve_payment_status/<int:id>/', views.approve_shipping_info, name="approve_payment_status"),
+    path('show_voucher_information/<int:id>/', views.show_voucher_information, name="show_voucher_information"),
     path('admin/', admin.site.urls),
 ]
 

@@ -193,30 +193,21 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Voucher No</th>
-                        <th>Username</th>
-                        <th>Total amount</th>
-                        <th>Payment Status</th>
-                        <th>Time</th>
+                        <th>ID</th>
+                        <th>Product ID</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for shipping_info in shipping_information %}
+                    {% for voucher_info in shipping_information.voucher_set.all %}
 
                         <tr>
-                            <td><a href="/show_voucher_information/{{ shipping_info.id }}">{{ shipping_info.id }}</a>
-                            </td>
-                            <td>{{ shipping_info.username.username }}</td>
-                            <td>{{ shipping_info.total_price }}</td>
-                            <td>{{ shipping_info.payment_status }}</td>
-                            <td>{{ shipping_info.time }}</td>
+                            <td>{{ voucher_info.id }}</td>
+                            <td>{{ voucher_info.product_id.product_name}}</td>
+                            <td>{{ voucher_info.quantity }}</td>
+                            <td>{{ voucher_info.price }}</td>
 
-                            <td>
-                                {% if shipping_info.payment_status == 'Pending' %} }
-                                    <a href="/approve_payment_status/{{ shipping_info.id }}"
-                                       class="btn pull-right btn-primary">Approve</a>
-                                {% endif %}
-                            </td>
 
                         </tr>
                     {% endfor %}

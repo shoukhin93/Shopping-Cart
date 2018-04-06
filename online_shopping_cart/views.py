@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import collections
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def index(request):
@@ -204,4 +204,12 @@ def approve_shipping_info(request, id):
 
     shipping_information = ShippingInfo.objects.all()
     return render(request, 'shipping_history.html', context={'shipping_information': shipping_information})
-    #return HttpResponseRedirect(reverse('product_summary'))
+    # return HttpResponseRedirect(reverse('product_summary'))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def show_voucher_information(request, id):
+    """ To show the voucher details information """
+
+    shipping_information = ShippingInfo.objects.get(id=id)
+    return render(request, 'voucher_info.html', context={'shipping_information': shipping_information})
