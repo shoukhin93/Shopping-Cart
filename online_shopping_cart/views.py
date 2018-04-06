@@ -186,3 +186,9 @@ def confirm_shipping_info(request):
 
     return render(request, 'confirm_shipping_order.html',
                   context={'cart_items': temp_value["cart_items"], 'total_price': temp_value["total_price"]})
+
+
+@login_required
+def shipping_history(request):
+    shipping_information = ShippingInfo.objects.all()
+    return render(request, 'shipping_history.html', context={'shipping_information': shipping_information})

@@ -31,6 +31,7 @@ urlpatterns = [
     path('user_registration/', views.user_registration, name="user_registration"),
     path('add_shipping_info/', views.add_shopping_info, name="add_shopping_info"),
     path('confirm_shipping_info/', views.confirm_shipping_info, name="confirm_shipping_info"),
+    path('shipping_history/', views.shipping_history, name="shipping_history"),
     path('admin/', admin.site.urls),
 ]
 
