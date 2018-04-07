@@ -35,7 +35,7 @@ class ShippingInfo(models.Model):
 
     username = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     total_price = models.FloatField(default=0)
-    payment_status = models.CharField(default="Pending", max_length=10)
+    payment_status = models.CharField(default="pending", max_length=10)
     time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

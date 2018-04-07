@@ -182,12 +182,12 @@
             <div class="span9">
                 <ul class="breadcrumb">
                     <li><a href="index.html">Home</a> <span class="divider">/</span></li>
-                    <li class="active"> SHOPPING CART</li>
+                    <li class="active"> Shipping history</li>
                 </ul>
-                <h3> SHOPPING CART [
-                    <small>{{ cart_items|length }} Item(s)</small>
-                    ]
-                </h3>
+                <h3> SHIPPING HISTORY</h3>
+                {% if errors %}
+                    <div style="color: red">{{ errors }}</div>
+                {% endif %}
                 <hr class="soft"/>
 
                 <table class="table table-bordered">
@@ -208,14 +208,22 @@
                             </td>
                             <td>{{ shipping_info.username.username }}</td>
                             <td>{{ shipping_info.total_price }}</td>
-                            <td>{{ shipping_info.payment_status }}</td>
+
+                            {% if shipping_info.payment_status == 'pending' %}
+                                <td style="color: red">{{ shipping_info.payment_status }}</td>
+                            {% else %}
+                                <td style="color: green">{{ shipping_info.payment_status }}</td>
+                            {% endif %}
                             <td>{{ shipping_info.time }}</td>
 
                             <td>
-                                {% if shipping_info.payment_status == 'Pending' %} }
+                                {% if shipping_info.payment_status == 'pending' %}
                                     <a href="/approve_payment_status/{{ shipping_info.id }}"
                                        class="btn pull-right btn-primary">Approve</a>
                                 {% endif %}
+
+                                <a href="/reject_payment_status/{{ shipping_info.id }}"
+                                   class="btn pull-right btn-danger">Reject/Delete</a>
                             </td>
 
                         </tr>

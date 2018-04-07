@@ -33,6 +33,7 @@ urlpatterns = [
     path('confirm_shipping_info/', views.confirm_shipping_info, name="confirm_shipping_info"),
     path('shipping_history/', views.shipping_history, name="shipping_history"),
     path('approve_payment_status/<int:id>/', views.approve_shipping_info, name="approve_payment_status"),
+    path('reject_payment_status/<int:id>/', views.reject_payment_status, name="reject_payment_status"),
     path('show_voucher_information/<int:id>/', views.show_voucher_information, name="show_voucher_information"),
     path('update_cart_items/<int:id>/', views.update_cart_items, name="update_cart_items"),
     path('search/', views.search_result, name="search_result"),

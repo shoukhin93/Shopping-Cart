@@ -198,13 +198,16 @@ def add_shopping_info(request):
     cart_items = current_cart_info['cart_items']
 
     for cart_item in cart_items:
-        print(cart_item['id'])
         product_id = Items.objects.get(id=cart_item['id'])
         voucher_item = Voucher(v_id=shipping_info, product_id=product_id, quantity=cart_item['quantity'],
                                price=cart_item['quantity'] * product_id.price)
         voucher_item.save()
 
-    return render(request, 'index.html')
+        # Updating quantity after confirming order
+        # product_id.quantity -= int(cart_item['quantity'])
+        # product_id.save()
+
+    return HttpResponseRedirect('/')
 
 
 def confirm_shipping_info(request):
@@ -212,9 +215,7 @@ def confirm_shipping_info(request):
 
     error_messages = []
     flag = True
-
     temp_value = calculate_cart_items(request)
-
     cart_items = temp_value['cart_items']
 
     for cart_item in cart_items:
@@ -250,12 +251,35 @@ def approve_shipping_info(request, id):
     """ To approve the pending status"""
 
     info = ShippingInfo.objects.get(id=id)
+
+    # Updating stored quantity
+    vouchers = info.voucher_set.all()
+    for voucher in vouchers:
+        temp_item = voucher.product_id
+        temp_item.quantity -= voucher.quantity
+        if temp_item.quantity >= 0:
+            temp_item.save()
+        else:
+            error = "Sorry, not enough stock for " + temp_item.product_name
+            shipping_information = ShippingInfo.objects.all()
+            return render(request, 'shipping_history.html',
+                          context={'shipping_information': shipping_information, 'errors': error})
+
+    # No error found, change the payment status
     info.payment_status = "approved"
     info.save()
 
-    shipping_information = ShippingInfo.objects.all()
-    return render(request, 'shipping_history.html', context={'shipping_information': shipping_information})
-    # return HttpResponseRedirect(reverse('product_summary'))
+    return HttpResponseRedirect('/shipping_history/')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def reject_payment_status(request, id):
+    """ To reject the pending status"""
+
+    info = ShippingInfo.objects.get(id=id)
+    info.delete()
+
+    return HttpResponseRedirect('/shipping_history/')
 
 
 @user_passes_test(lambda u: u.is_superuser)
