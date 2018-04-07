@@ -7,6 +7,7 @@ from django.urls import reverse
 import collections
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import authenticate, login, logout
 
 
 def index(request):
@@ -228,7 +229,6 @@ def confirm_shipping_info(request):
             error_messages.append("Not enough " + temp_item.product_name + " in our store")
             flag = False
 
-    print(error_messages)
     if flag:
         return render(request, 'confirm_shipping_order.html',
                       context={'cart_items': temp_value["cart_items"], 'total_price': temp_value["total_price"]})
@@ -274,3 +274,24 @@ def search_result(request):
     cart_items = request.session.get('items', [])
     return render(request, 'index.html', context={'items': items, 'cart_item': cart_items,
                                                   'total_price': total_price["total_price"]})
+
+
+def login_or_register(request):
+    return render(request, 'login_or_register.html')
+
+
+def user_login(request):
+    """ To login general user"""
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            login(request, user)
+            return HttpResponseRedirect('/confirm_shipping_info/')
+        else:
+            messages.error(request, "invalid username or password")
+            return HttpResponseRedirect('/login_or_register/')

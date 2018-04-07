@@ -36,6 +36,8 @@ urlpatterns = [
     path('show_voucher_information/<int:id>/', views.show_voucher_information, name="show_voucher_information"),
     path('update_cart_items/<int:id>/', views.update_cart_items, name="update_cart_items"),
     path('search/', views.search_result, name="search_result"),
+    path('login_or_register/', views.login_or_register, name="login_or_register"),
+    path('login/', views.user_login, name="user_login"),
     path('admin/', admin.site.urls),
 ]
 
