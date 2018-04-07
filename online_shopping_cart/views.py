@@ -17,7 +17,7 @@ def index(request):
                                                   'total_price': total_price["total_price"]})
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def admin_panel(request):
     if request.method == 'POST':
         form = AddItems(request.POST, request.FILES)
@@ -31,7 +31,7 @@ def admin_panel(request):
     return render(request, 'admin_panel.html')
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def edit_item(request, id):
     """ To Edit Item from database(Admin privilege required)"""
 
@@ -46,7 +46,7 @@ def edit_item(request, id):
     return render(request, 'edit_item.html', context={'item': item})
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def delete_item(request, id):
     """ To Delete Item from database(Admin privilege required)"""
 
@@ -239,13 +239,13 @@ def confirm_shipping_info(request):
                                'error_messages': error_messages})
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def shipping_history(request):
     shipping_information = ShippingInfo.objects.all()
     return render(request, 'shipping_history.html', context={'shipping_information': shipping_information})
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def approve_shipping_info(request, id):
     """ To approve the pending status"""
 
@@ -269,7 +269,7 @@ def show_voucher_information(request, id):
 def search_result(request):
     search_string = request.POST['search_string']
 
-    items = Items.objects.filter(product_name__contains=search_string)
+    items = Items.objects.filter(product_name__icontains=search_string)
     total_price = calculate_cart_items(request)
     cart_items = request.session.get('items', [])
     return render(request, 'index.html', context={'items': items, 'cart_item': cart_items,
