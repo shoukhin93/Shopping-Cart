@@ -207,15 +207,20 @@
                             <td><img width="60" src="{{ cart_item.picture }}" alt=""/></td>
                             <td>{{ cart_item.product_name }}</td>
                             <td>
-                                <div class="input-append"><input class="span1" style="max-width:34px"
-                                                                 placeholder="{{ cart_item.quantity }}"
-                                                                 id="appendedInputButtons" size="16" type="text">
+                                <form action="/update_cart_items/{{ cart_item.id }}/" method="post">
+                                    <div class="input-append">
 
-                                    <button class="btn" type="button"><i class="icon-minus"></i></button>
-                                    <button class="btn" type="button"><i class="icon-plus"></i></button>
+                                        <input class="span1" name="amount" style="max-width:34px"
+                                               placeholder="{{ cart_item.quantity }}"
+                                               id="appendedInputButtons" size="16" type="text">
 
-                                    <a class="btn btn-danger" href="/remove_cart_item/{{ cart_item.id }}/"><i
-                                            class="icon-remove icon-white"></i></a></div>
+                                        {% csrf_token %}
+                                        <button class="btn" type="submit"><i class="icon-plus"></i></button>
+
+
+                                        <a class="btn btn-danger" href="/remove_cart_item/{{ cart_item.id }}/"><i
+                                                class="icon-remove icon-white"></i></a></div>
+                                </form>
                             </td>
                             <td>{{ cart_item.price }}</td>
                             <td>{{ cart_item.total }}</td>

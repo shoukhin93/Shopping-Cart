@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import collections
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
@@ -70,7 +71,12 @@ def calculate_cart_items(request):
 
     for key, value in cleaned_cart_items.items():
         # Getting the saved item from database
-        temp_item = Items.objects.get(id=key)
+
+        # print(key)
+        try:
+            temp_item = Items.objects.get(id=key)
+        except ObjectDoesNotExist:
+            continue
 
         quantity = value
         temp_price = temp_item.price * quantity  # total Price of a single item = quantity * price
@@ -122,6 +128,27 @@ def remove_all_cart_items(request):
 
     request.session['items'] = []
     return HttpResponseRedirect(reverse('product_summary'))
+
+
+def update_cart_items(request, id):
+    """ TO update cart items"""
+
+    if request.method == "POST":
+        amount = int(request.POST['amount'])
+        if amount >= 0:
+            # First removing the cart items and then appending to the list
+            cart_items = request.session.get('items', [])
+
+            # Removing duplicate items from session which are matched with passed id
+            updated_cart_items = [x for x in cart_items if x != id]
+
+            # updated amount of cart item is appending to the list
+            for i in range(0, amount):
+                updated_cart_items.append(id)
+
+            request.session['items'] = updated_cart_items  # Updating session
+
+        return HttpResponseRedirect(reverse('product_summary'))
 
 
 def user_registration(request):

@@ -34,6 +34,7 @@ urlpatterns = [
     path('shipping_history/', views.shipping_history, name="shipping_history"),
     path('approve_payment_status/<int:id>/', views.approve_shipping_info, name="approve_payment_status"),
     path('show_voucher_information/<int:id>/', views.show_voucher_information, name="show_voucher_information"),
+    path('update_cart_items/<int:id>/', views.update_cart_items, name="update_cart_items"),
     path('admin/', admin.site.urls),
 ]
 
