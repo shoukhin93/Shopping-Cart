@@ -264,3 +264,13 @@ def show_voucher_information(request, id):
 
     shipping_information = ShippingInfo.objects.get(id=id)
     return render(request, 'voucher_info.html', context={'shipping_information': shipping_information})
+
+
+def search_result(request):
+    search_string = request.POST['search_string']
+
+    items = Items.objects.filter(product_name__contains=search_string)
+    total_price = calculate_cart_items(request)
+    cart_items = request.session.get('items', [])
+    return render(request, 'index.html', context={'items': items, 'cart_item': cart_items,
+                                                  'total_price': total_price["total_price"]})

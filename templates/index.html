@@ -48,8 +48,8 @@
                 <div class="pull-right">
 
                     <span class="btn btn-mini">{{ total_price }}</span>
-                    <a href="product_summary.html"><span class="">$</span></a>
-                    <a href="product_summary.html"><span class="btn btn-mini btn-primary"><i
+                    <a href="/product_summary/"><span class="">$</span></a>
+                    <a href="/product_summary/"><span class="btn btn-mini btn-primary"><i
                             class="icon-shopping-cart icon-white"></i> [ {{ cart_item|length }} ] Items in your cart </span>
                     </a>
                     <a href="/product_summary/"><span class="btn btn-mini btn-primary">Checkout</span></a>
@@ -64,24 +64,15 @@
                 <span class="icon-bar"></span>
             </a>
             <div class="navbar-inner">
-                <a class="brand" href="index.html"><img src="{% static "themes/images/logo.png" %}"
-                                                        alt="Bootsshop"/></a>
-                <form class="form-inline navbar-search" method="post" action="products.html">
-                    <input id="srchFld" class="srchTxt" type="text"/>
-                    <select class="srchTxt">
-                        <option>All</option>
-                        <option>CLOTHES</option>
-                        <option>FOOD AND BEVERAGES</option>
-                        <option>HEALTH & BEAUTY</option>
-                        <option>SPORTS & LEISURE</option>
-                        <option>BOOKS & ENTERTAINMENTS</option>
-                    </select>
+                <a class="brand" href="/"><img src="{% static "themes/images/logo.png" %}"
+                                               alt="Bootsshop"/></a>
+                <form class="form-inline navbar-search" method="post" action="/search/">
+                    {% csrf_token %}
+                    <input id="srchFld" name="search_string" class="srchTxt" type="text"/>
+
                     <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
                 </form>
                 <ul id="topMenu" class="nav pull-right">
-                    <li class=""><a href="special_offer.html">Specials Offer</a></li>
-                    <li class=""><a href="normal.html">Delivery</a></li>
-                    <li class=""><a href="contact.html">Contact</a></li>
                     <li class="">
                         <a href="#login" role="button" data-toggle="modal" style="padding-right:0"><span
                                 class="btn btn-large btn-success">Login</span></a>
@@ -122,11 +113,11 @@
         <div class="row">
             <!-- Sidebar ================================================== -->
             <div id="sidebar" class="span3">
-                <div class="well well-small"><a id="myCart" href="product_summary.html"><img
+                <div class="well well-small"><a id="myCart" href="/product_summary/"><img
                         src="{% static "themes/images/ico-cart.png" %}" alt="cart"> {{ cart_item|length }} Items in your
                     cart <span
                             class="badge badge-warning pull-right">{{ total_price }}</span></a></div>
-                <ul id="sideManu" class="nav nav-tabs nav-stacked">
+                {% comment %}<ul id="sideManu" class="nav nav-tabs nav-stacked">
                     <li class="subMenu open"><a> ELECTRONICS [230]</a>
                         <ul>
                             <li><a class="active" href="products.html"><i class="icon-chevron-right"></i>Cameras (100)
@@ -166,21 +157,21 @@
                     <li><a href="products.html">HEALTH & BEAUTY [18]</a></li>
                     <li><a href="products.html">SPORTS & LEISURE [58]</a></li>
                     <li><a href="products.html">BOOKS & ENTERTAINMENTS [14]</a></li>
-                </ul>
+                </ul>{% endcomment %}
                 <br/>
 
             </div>
             <!-- Sidebar end=============================================== -->
             <div class="span9">
-                <h4>Latest Products </h4>
+                <h4>Products </h4>
                 <ul class="thumbnails">
                     <!-- showing dynamic data -->
                     {% if  items %}
                         {% for item in items %}
                             <li class="span3">
                                 <div class="thumbnail">
-                                    <a href="product_details.html"><img src="{{ item.picture.url }}" width="200"
-                                                                        height="200" alt=""/></a>
+                                    <img src="{{ item.picture.url }}" width="200"
+                                         height="200" alt=""/>
                                     <div class="caption">
                                         <h5>{{ item.product_name }}</h5>
                                         <p>
@@ -189,12 +180,12 @@
 
                                         <form id="add_to_cart" method="post" action="/test/">
                                             <h4 style="text-align:center">
-                                                <a class="btn" href="product_details.html"> <i
-                                                        class="icon-zoom-in"></i></a>
+
                                                 {% csrf_token %}
                                                 <input name="cart_item_id" id="cart_item_id" type="hidden"
                                                        value="{{ item.id }}">
-                                                <button>Add to</button>
+                                                <button class="btn btn-default">Add to<i class="icon-shopping-cart"></i>
+                                                </button>
 
                                                 <a class="btn btn-primary"
                                                    href="#">${{ item.price }}</a>

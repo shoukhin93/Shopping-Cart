@@ -35,6 +35,7 @@ urlpatterns = [
     path('approve_payment_status/<int:id>/', views.approve_shipping_info, name="approve_payment_status"),
     path('show_voucher_information/<int:id>/', views.show_voucher_information, name="show_voucher_information"),
     path('update_cart_items/<int:id>/', views.update_cart_items, name="update_cart_items"),
+    path('search/', views.search_result, name="search_result"),
     path('admin/', admin.site.urls),
 ]
 
