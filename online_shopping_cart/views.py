@@ -209,10 +209,34 @@ def add_shopping_info(request):
 def confirm_shipping_info(request):
     """ To save confirmed shopping info """
 
+    error_messages = []
+    flag = True
+
     temp_value = calculate_cart_items(request)
 
-    return render(request, 'confirm_shipping_order.html',
-                  context={'cart_items': temp_value["cart_items"], 'total_price': temp_value["total_price"]})
+    cart_items = temp_value['cart_items']
+
+    for cart_item in cart_items:
+        id = cart_item['id']
+
+        try:
+            temp_item = Items.objects.get(id=id)
+        except ObjectDoesNotExist:
+            continue
+
+        if temp_item.quantity < cart_item['quantity']:
+            error_messages.append("Not enough " + temp_item.product_name + " in our store")
+            flag = False
+
+    print(error_messages)
+    if flag:
+        return render(request, 'confirm_shipping_order.html',
+                      context={'cart_items': temp_value["cart_items"], 'total_price': temp_value["total_price"]})
+
+    else:
+        return render(request, 'product_summary.html',
+                      context={'cart_items': temp_value["cart_items"], 'total_price': temp_value["total_price"],
+                               'error_messages': error_messages})
 
 
 @login_required

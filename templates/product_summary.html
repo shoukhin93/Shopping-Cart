@@ -179,16 +179,31 @@
                 </div>
             </div>
             <!-- Sidebar end=============================================== -->
+
+
             <div class="span9">
                 <ul class="breadcrumb">
                     <li><a href="index.html">Home</a> <span class="divider">/</span></li>
                     <li class="active"> SHOPPING CART</li>
                 </ul>
+
+
                 <h3> SHOPPING CART [
                     <small>{{ cart_items|length }} Item(s)</small>
                     ]<a href="/remove_all_cart_items/" class="btn btn-large pull-right btn-danger">Remove All Items</a>
                 </h3>
                 <hr class="soft"/>
+
+                {% if error_messages %}
+
+                    <div class="jumbotron" style="color: red">
+                        <ul>
+                            {% for error_message in error_messages %}
+                                <li>{{ error_message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
                 <table class="table table-bordered">
                     <thead>
