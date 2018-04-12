@@ -39,6 +39,7 @@ urlpatterns = [
     path('search/', views.search_result, name="search_result"),
     path('login_or_register/', views.login_or_register, name="login_or_register"),
     path('login/', views.user_login, name="user_login"),
+    path('logout/', views.user_logout, name="user_logout"),
     path('admin/', admin.site.urls),
 ]
 

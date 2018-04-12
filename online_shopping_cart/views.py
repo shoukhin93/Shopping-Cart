@@ -319,3 +319,9 @@ def user_login(request):
         else:
             messages.error(request, "invalid username or password")
             return HttpResponseRedirect('/login_or_register/')
+
+
+def user_logout(request):
+    """ TO logged out logged in user """
+    logout(request)
+    return HttpResponseRedirect('/')
